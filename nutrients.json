@@ -1,0 +1,102 @@
+{
+   "macro-nutrients": [
+      {
+         "name": "Carbohydrates",
+         "RDI": "No RDI, but recommended to consume 45-65% of daily calories from carbohydrates"
+      },
+      {
+         "name": "Protein",
+         "RDI": "0.8 grams per kilogram of body weight (56 grams per day for the average sedentary man and 46 grams per day for the average sedentary woman)"
+      },
+      {
+         "name": "Fat",
+         "RDI": "20-35% of daily calories from fat, with no RDI for specific types of fat (such as saturated or unsaturated)"
+      }
+   ],
+   "micro-nutrients": [
+      {
+         "name": "Vitamin A",
+         "RDI": "700-900 micrograms (mcg)"
+      },
+      {
+         "name": "Vitamin C",
+         "RDI": "75-90 milligrams (mg)"
+      },
+      {
+         "name": "Vitamin D",
+         "RDI": "15-20 micrograms (mcg)"
+      },
+      {
+         "name": "Vitamin E",
+         "RDI": "15-20 milligrams (mg)"
+      },
+      {
+         "name": "Vitamin K",
+         "RDI": "90-120 micrograms (mcg)"
+      },
+      {
+         "name": "Thiamine (B1)",
+         "RDI": "1.1-1.2 milligrams (mg)"
+      },
+      {
+         "name": "Riboflavin (B2)",
+         "RDI": "1.1-1.3 milligrams (mg)"
+      },
+      {
+         "name": "Niacin (B3)",
+         "RDI": "14-16 milligrams (mg)"
+      },
+      {
+         "name": "Pantothenic Acid (B5)",
+         "RDI": "5 milligrams (mg)"
+      },
+      {
+         "name": "Vitamin B6",
+         "RDI": "1.3-1.7 milligrams (mg)"
+      },
+      {
+         "name": "Vitamin B12",
+         "RDI": "2.4 micrograms (mcg)"
+      },
+      {
+         "name": "Folate (B9)",
+         "RDI": "400-600 micrograms (mcg)"
+      },
+      {
+         "name": "Biotin (B7)",
+         "RDI": "30 micrograms (mcg)"
+      },
+      {
+         "name": "Calcium",
+         "RDI": "1000-1300 milligrams (mg)"
+      },
+      {
+         "name": "Iron",
+         "RDI": "8-18 milligrams (mg)"
+      },
+      {
+         "name": "Magnesium",
+         "RDI": "310-420 milligrams (mg)"
+      },
+      {
+         "name": "Phosphorus",
+         "RDI": "700 milligrams (mg)"
+      },
+      {
+         "name": "Potassium",
+         "RDI": "2000-4700 milligrams (mg)"
+      },
+      {
+         "name": "Sodium",
+         "RDI": "1500-2300 milligrams (mg)"
+      },
+      {
+         "name": "Zinc",
+         "RDI": "8-11 milligrams (mg)"
+      },
+      {
+         "name": "Copper",
+         "RDI": "900 micrograms (mcg)"
+      }
+    ]
+}
