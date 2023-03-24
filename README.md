@@ -56,3 +56,42 @@ docker ps
 # See the latest logs
 docker logs
 ```
+
+## Developing in NestJs
+
+### Generate a new resource
+`nest g resource` command not only generates all the NestJS building blocks (module, service, controller classes) but also an entity class, DTO classes as well as the testing (.spec) files.
+
+```bash
+`nest g resource`
+```
+
+### Create a new module only
+
+```bash
+nest g module <<module-name>>
+```
+### Create a new service only
+```bash 
+nest g service <<service-name>>
+```
+
+Generate without tests (spec file) - not recommended as every file should have a corresponding spec/test file:
+```bash 
+nest g service <<service-name>> --no-spec
+```
+
+### Create a new controller only
+```bash 
+nest g controller <<controller-name>> 
+```
+## Prisma Schema management and migrations
+Prisma can generate new migration.sql files every time we change the PostgreSQL database schema in `prisma/schema.prisma`. Read the official [Getting Started: Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate/get-started) docs to understand how it works.
+
+1. Make changes to the schema in `prisma/schema.prisma`
+2. Update relevant data transform object (DTO) files
+3. Update relevant entity files to update Swagger types
+4. Run prisma migrate to generate migration.sql files: `yarn prisma migrate dev --name name-your-changes`
+5. Restart Prisma studio (`yarn studio` script). You should see your new data model in the Prisma studio
+
+Where `name-your-changes` should describe the changes you made to the schema.

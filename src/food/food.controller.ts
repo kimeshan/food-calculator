@@ -26,11 +26,6 @@ export class FoodController {
     return this.foodService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.foodService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
     return this.foodService.update(+id, updateFoodDto);
@@ -38,11 +33,7 @@ export class FoodController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log('id', id);
     return this.foodService.remove(+id);
-  }
-
-  @Get('nutrition')
-  getNutritionInfo(@Param(':food') food: string) {
-    return this.foodService.getNutritionInfo(food);
   }
 }

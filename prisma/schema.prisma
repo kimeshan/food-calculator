@@ -9,3 +9,80 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum NutrientCategory {
+  macro
+  vitamin
+  mineral
+}
+
+enum VitaminSolubility {
+  fat
+  water
+}
+
+model Nutrient {
+  id                   Int                   @id @default(autoincrement())
+  name                 String                @unique
+  description          String
+  category             NutrientCategory
+  solubility           VitaminSolubility?
+  // Relations
+  FoodNutrient         FoodNutrient[]
+  // To add
+  // Deficiency disease(s)
+  // Overdose syndrome/symptoms
+  // Functions
+  NutrientRequirements NutrientRequirement[]
+}
+
+enum Sex {
+  male
+  female
+}
+
+model NutrientRequirement {
+  id            Int      @id @default(autoincrement())
+  standardName  String
+  source        String
+  sourceURL     String
+  yearFrom      Int
+  ageGroupStart Int?
+  ageGroupEnd   Int?
+  biologicalSex Sex?
+  amountMicroMg Float
+  // Relations
+  nutrient      Nutrient @relation(fields: [nutrientId], references: [id])
+  nutrientId    Int
+}
+
+model Food {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  nutrients FoodNutrient[]
+}
+
+enum FoodNutrientSource {
+  USDA
+}
+
+enum DerivationMethodology {
+  analytical
+  calculated
+}
+
+model FoodNutrient {
+  id                    Int                   @id @default(autoincrement())
+  amountMicroMg         Float
+  createdAt             DateTime              @default(now())
+  derivationMethodology DerivationMethodology
+  source                FoodNutrientSource
+  sourceUrl             String
+  // Relation
+  food                  Food                  @relation(fields: [foodId], references: [id])
+  foodId                Int
+  nutrient              Nutrient              @relation(fields: [nutrientId], references: [id])
+  nutrientId            Int
+
+  @@unique([foodId, nutrientId, source])
+}
