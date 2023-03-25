@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import {
+  PrismaClient,
+  Sex,
+  NutrientCategory,
+  VitaminSolubility,
+  Nutrient,
+} from '@prisma/client';
 import axios from 'axios';
 import * as nutrients from './seed_data/nutrients.json';
-import { NutrientCategory, VitaminSolubility } from '@prisma/client';
+import * as UKNutrientRequirements from './seed_data/uk_nutrition_req.json';
 
 const prisma = new PrismaClient();
 const API_KEY = process.env.USDA_API_KEY;
@@ -9,6 +15,7 @@ const API_URL = 'https://api.nal.usda.gov/fdc/v1/';
 
 async function seed() {
   seedNutrients();
+  seedNutrientRequirements();
 }
 
 async function seedNutrients() {
@@ -20,11 +27,41 @@ async function seedNutrients() {
     if (nutrient.solubility)
       nutrient.solubility = VitaminSolubility[nutrient?.solubility];
   });
+  // Upsert into database
   allNutrients.forEach(async (nutrient: any) => {
     await prisma.nutrient.upsert({
       where: { name: nutrient?.name },
       update: {},
       create: nutrient,
+    });
+  });
+}
+
+async function seedNutrientRequirements() {
+  // Replace string with enum types
+  UKNutrientRequirements.map(
+    (requirement: any) =>
+      (requirement.biologicalSex = Sex[requirement?.biologicalSex]),
+  );
+  UKNutrientRequirements.forEach(async (requirement: any) => {
+    const { name, ...createRequirement } = requirement;
+    const nutrient: Nutrient = await prisma.nutrient.findUnique({
+      where: { name },
+    });
+    await prisma.nutrientRequirement.upsert({
+      where: {
+        standardName_yearFrom_nutrientId_biologicalSex: {
+          nutrientId: nutrient.id,
+          standardName: requirement.standardName,
+          yearFrom: requirement.yearFrom,
+          biologicalSex: requirement.biologicalSex,
+        },
+      },
+      update: {},
+      create: {
+        ...createRequirement,
+        nutrient: { connect: { id: nutrient.id } },
+      },
     });
   });
 }

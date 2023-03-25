@@ -56,6 +56,8 @@ model NutrientRequirement {
   // Relations
   nutrient      Nutrient @relation(fields: [nutrientId], references: [id])
   nutrientId    Int
+
+  @@unique([standardName, yearFrom, nutrientId, biologicalSex])
 }
 
 model Food {
