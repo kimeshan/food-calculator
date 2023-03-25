@@ -1,0 +1,232 @@
+{
+  "vitamins": [
+    {
+      "name": "Vitamin A",
+      "description": "Vitamin A is a group of fat-soluble retinoids that plays a vital role in vision, growth, and immune function.",
+      "category": "vitamin",
+      "solubility": "fat",
+      "commonName": "Retinol"
+    },
+    {
+      "name": "Vitamin B1",
+      "commonName": "Thiamine",
+      "description": "A water-soluble vitamin that helps convert food into energy and plays a role in nerve function.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B2",
+      "commonName": "Riboflavin",
+      "description": "A water-soluble vitamin that plays a role in energy metabolism, red blood cell production, and skin health.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B3",
+      "commonName": "Niacin",
+      "description": "A water-soluble vitamin that plays a role in energy metabolism, DNA repair, and skin health.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B5",
+      "commonName": "Pantothenic acid",
+      "description": "A water-soluble vitamin that plays a role in energy metabolism and the synthesis of hormones and cholesterol.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B6",
+      "commonName": "Pyridoxine",
+      "description": "A water-soluble vitamin that plays a role in amino acid metabolism, red blood cell production, and immune function.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B7",
+      "commonName": "Biotin",
+      "description": "A water-soluble vitamin that plays a role in energy metabolism, skin health, and the synthesis of fatty acids.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B9",
+      "commonName": "Folate",
+      "description": "A water-soluble vitamin that plays a role in DNA synthesis, red blood cell production, and fetal development.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin B12",
+      "commonName": "Cobalamin",
+      "description": "A water-soluble vitamin that plays a role in red blood cell production, nerve function, and DNA synthesis.",
+      "category": "vitamin",
+      "solubility": "water"
+    },
+    {
+      "name": "Vitamin C",
+      "description": "Vitamin C, also known as ascorbic acid, is a water-soluble vitamin that acts as an antioxidant, helping to protect cells from the damage caused by free radicals.",
+      "category": "vitamin",
+      "solubility": "water",
+      "commonName": "Ascorbic acid"
+    },
+    {
+      "name": "Vitamin D",
+      "description": "Vitamin D is a group of fat-soluble secosteroids that helps the body absorb calcium and maintain proper levels of calcium and phosphate in the blood. It is also important for bone growth and remodeling, as well as immune function.",
+      "category": "vitamin",
+      "solubility": "fat",
+      "commonName": "Calciferol"
+    },
+    {
+      "name": "Vitamin D1",
+      "description": "Vitamin D1 is a form of vitamin D that is no longer considered a vitamin.",
+      "category": "vitamin",
+      "solubility": "fat"
+    },
+    {
+      "name": "Vitamin D2",
+      "description": "Vitamin D2, also known as ergocalciferol, is a form of vitamin D that is synthesized by plants and yeast.",
+      "category": "vitamin",
+      "solubility": "fat",
+      "commonName": "Ergocalciferol"
+    },
+    {
+      "name": "Vitamin D3",
+      "description": "Vitamin D3, also known as cholecalciferol, is a form of vitamin D that is synthesized by the skin when exposed to sunlight.",
+      "category": "vitamin",
+      "solubility": "fat",
+      "commonName": "Cholecalciferol"
+    },
+    {
+      "name": "Vitamin D4",
+      "description": "Vitamin D4, also known as 22-dihydroergocalciferol, is a form of vitamin D that is found in certain mushrooms.",
+      "category": "vitamin",
+      "solubility": "fat"
+    },
+    {
+      "name": "Vitamin D5",
+      "description": "Vitamin D5, also known as sitocalciferol, is a form of vitamin D that is found in certain plants.",
+      "category": "vitamin",
+      "solubility": "fat"
+    },
+    {
+      "name": "Vitamin E",
+      "description": "Vitamin E is a group of fat-soluble compounds that act as antioxidants, protecting cells from the damage caused by free radicals.",
+      "category": "vitamin",
+      "solubility": "fat",
+      "commonName": "Tocopherol"
+    },
+    {
+      "name": "Vitamin K",
+      "description": "Vitamin K is a group of fat-soluble vitamins that play a role in blood clotting, bone metabolism, and cardiovascular health.",
+      "category": "vitamin",
+      "solubility": "fat"
+    }
+  ],
+  "minerals": [
+    {
+      "name": "Calcium",
+      "description": "Calcium is a mineral that is necessary for life. In addition to building bones and keeping them healthy, calcium enables our blood to clot, our muscles to contract, and our heart to beat. About 99% of the calcium in our bodies is in our bones and teeth. Every day, we lose calcium through our skin, nails, hair, sweat, urine and feces. Our bodies cannot produce its own calcium.",
+      "category": "mineral"
+    },
+    {
+      "name": "Chromium",
+      "description": "Chromium is a mineral that the body needs in small amounts.",
+      "category": "mineral"
+    },
+    {
+      "name": "Chloride",
+      "description": "Chloride is a mineral that is important for maintaining the proper balance of fluids in the body. It is a component of table salt and is also found in many other foods. Chloride is important for proper digestion, as it helps to create hydrochloric acid in the stomach. It is also involved in the production of sweat, which helps to regulate body temperature.",
+      "category": "mineral"
+    },
+    {
+      "name": "Copper",
+      "description": "Copper is a mineral that the body needs in small amounts.",
+      "category": "mineral"
+    },
+    {
+      "name": "Iodine",
+      "description": "Iodine is a mineral that is essential for the production of thyroid hormones.",
+      "category": "mineral"
+    },
+    {
+      "name": "Iron",
+      "description": "Iron is a mineral that the body needs to produce hemoglobin, a protein in red blood cells that carries oxygen throughout the body.",
+      "category": "mineral"
+    },
+    {
+      "name": "Magnesium",
+      "description": "Magnesium is a mineral that is important for many processes in the body, including muscle and nerve function, blood sugar control, and blood pressure regulation.",
+      "category": "mineral"
+    },
+    {
+      "name": "Manganese",
+      "description": "Manganese is a mineral that the body needs in small amounts to function properly.",
+      "category": "mineral"
+    },
+    {
+      "name": "Molybdenum",
+      "description": "Molybdenum is a mineral that the body needs in small amounts to break down and use amino acids, which are the building blocks of proteins.",
+      "category": "mineral"
+    },
+    {
+      "name": "Phosphorus",
+      "description": "Phosphorus is a mineral that is important for many processes in the body, including the formation of bones and teeth, energy production, and kidney function.",
+      "category": "mineral"
+    },
+    {
+      "name": "Potassium",
+      "description": "Potassium is a mineral that is important for many processes in the body, including muscle and nerve function, fluid balance, and blood pressure regulation.",
+      "category": "mineral"
+    },
+    {
+      "name": "Selenium",
+      "description": "Selenium is a mineral that is important for many processes in the body, including thyroid function and the immune system.",
+      "category": "mineral"
+    },
+    {
+      "name": "Sodium",
+      "description": "Sodium is a mineral that is important for many processes in the body, including fluid balance, nerve function, and muscle contraction.",
+      "category": "mineral"
+    },
+    {
+      "name": "Zinc",
+      "description": "Zinc is a mineral that is important for many processes in the body, including the immune system, wound healing, and the sense of taste and smell.",
+      "category": "mineral"
+    }
+  ],
+  "macros": [
+    {
+      "name": "Carbohydrates",
+      "description": "Carbohydrates are one of the three macronutrients that provide energy to the body. They are found in foods such as grains, fruits, vegetables, and dairy products.",
+      "category": "macronutrient",
+      "commonName": "Carbs"
+    },
+    {
+      "name": "Fats",
+      "description": "Fats are one of the three macronutrients that provide energy to the body. They are essential for the absorption of certain vitamins and minerals, as well as for the production of hormones and cell membranes.",
+      "category": "macronutrient",
+      "commonName": "Lipids"
+    },
+    {
+      "name": "Dietary Fiber",
+      "description": "Dietary fiber is a type of carbohydrate that the body cannot digest. It is found in foods such as fruits, vegetables, and whole grains. Fiber is important for maintaining healthy digestion and bowel function.",
+      "category": "macronutrient",
+      "commonName": "Fiber"
+    },
+    {
+      "name": "Protein",
+      "description": "Protein is one of the three macronutrients that provide energy to the body. It is important for the growth and repair of tissues, as well as for the production of enzymes and hormones.",
+      "category": "macronutrient",
+      "commonName": "Protein"
+    }
+  ],
+  "other": [
+    {
+      "name": "Choline",
+      "description": "Choline is an essential nutrient that is used by the body to support healthy brain and liver function. It is important for the formation of cell membranes and the transmission of nerve impulses.",
+      "category": "micronutrient",
+      "commonName": "Choline"
+    }
+  ]
+}

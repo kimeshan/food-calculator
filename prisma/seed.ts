@@ -1,11 +1,33 @@
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
+import * as nutrients from './seed_data/nutrients.json';
+import { NutrientCategory, VitaminSolubility } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const API_KEY = process.env.USDA_API_KEY;
 const API_URL = 'https://api.nal.usda.gov/fdc/v1/';
 
-async function seed() {}
+async function seed() {
+  seedNutrients();
+}
+
+async function seedNutrients() {
+  const { vitamins, minerals, macros, other } = nutrients;
+  const allNutrients = [...vitamins, ...minerals, ...macros, ...other];
+  // Replace eNum types
+  allNutrients.map((nutrient: any) => {
+    nutrient.category = NutrientCategory[nutrient.category];
+    if (nutrient.solubility)
+      nutrient.solubility = VitaminSolubility[nutrient?.solubility];
+  });
+  allNutrients.forEach(async (nutrient: any) => {
+    await prisma.nutrient.upsert({
+      where: { name: nutrient?.name },
+      update: {},
+      create: nutrient,
+    });
+  });
+}
 /**
  * WARNING: THIS DELETES EVERYTHING FROM THE DATABASE
  */
