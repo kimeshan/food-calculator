@@ -78,12 +78,13 @@ model NutrientRequirement {
 }
 
 model Food {
-  id            Int    @id @default(autoincrement())
-  name          String @unique
+  id            Int        @id @default(autoincrement())
+  name          String     @unique
+  description   String?
   numberOfGrams Int
+  source        FoodSource
 
   // Prisma Relations
-  source    FoodSource
   nutrients FoodNutrient[]
 }
 
