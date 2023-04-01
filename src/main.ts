@@ -1,6 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import configuration from 'config/configuration';
+import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -16,6 +18,13 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+
+  // See docs on input validation and using ValidationPipe:
+  // https://www.prisma.io/blog/nestjs-prisma-validation-7D056s1kOla1#use-parseintpipe-to-transform-dynamic-url-paths
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   await app.listen(config.port);
 }

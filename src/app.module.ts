@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { FoodModule } from './food/food.module';
 import configuration from '../config/configuration';
 import { PrismaModule } from 'nestjs-prisma';
+import { NutrientModule } from './nutrient/nutrient.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PrismaModule } from 'nestjs-prisma';
     }),
     PrismaModule.forRoot(),
     FoodModule,
+    NutrientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
