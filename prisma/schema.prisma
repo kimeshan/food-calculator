@@ -10,16 +10,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// All ENUMs
+
+enum BioSex {
+  MALE
+  FEMALE
+}
+
 enum NutrientCategory {
-  macronutrient
-  micronutrient
-  vitamin
-  mineral
+  MACRONUTRIENT
+  MICRONUTRIENT
+  VITAMIN
+  MINERAL
 }
 
 enum VitaminSolubility {
-  fat
-  water
+  FAT
+  WATER
+}
+
+enum FoodSource {
+  USDA
+}
+
+enum FoodNutrientSource {
+  USDA
+}
+
+enum DerivationMethodology {
+  ANALYTICAL
+  CALCULATED
 }
 
 model Nutrient {
@@ -31,16 +51,11 @@ model Nutrient {
   solubility           VitaminSolubility?
   // Relations
   FoodNutrient         FoodNutrient[]
-  // To add
+  // To add in future versions
   // Deficiency disease(s)
   // Overdose syndrome/symptoms
   // Functions
   NutrientRequirements NutrientRequirement[]
-}
-
-enum Sex {
-  male
-  female
 }
 
 model NutrientRequirement {
@@ -51,7 +66,7 @@ model NutrientRequirement {
   yearFrom      Int
   ageGroupStart Int?
   ageGroupEnd   Int?
-  biologicalSex Sex?
+  biologicalSex BioSex?
   amountMicroMg Float
   // Relations
   nutrient      Nutrient @relation(fields: [nutrientId], references: [id])
@@ -60,25 +75,12 @@ model NutrientRequirement {
   @@unique([standardName, yearFrom, nutrientId, biologicalSex])
 }
 
-enum FoodSource {
-  USDA
-}
-
 model Food {
   id            Int            @id @default(autoincrement())
   name          String         @unique
   numberOfGrams Int
   source        FoodSource
   nutrients     FoodNutrient[]
-}
-
-enum FoodNutrientSource {
-  USDA
-}
-
-enum DerivationMethodology {
-  analytical
-  calculated
 }
 
 model FoodNutrient {
