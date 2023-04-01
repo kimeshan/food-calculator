@@ -10,7 +10,16 @@ $ yarn install
 
 ## Running the app
 
+### Environment variables
+
+Add a .env file to the root of the project with the variables in the .env.example file.
+
+### Install dependencies and run the app
+
 ```bash
+# install dependencies
+$ yarn install
+
 # development
 $ yarn start
 

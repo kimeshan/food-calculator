@@ -1,12 +1,13 @@
 import {
   PrismaClient,
-  Sex,
+  BioSex,
   NutrientCategory,
   VitaminSolubility,
   Nutrient,
   FoodNutrientSource,
 } from '@prisma/client';
 import axios from 'axios';
+import configuration from '../config/configuration';
 import * as nutrients from './seed_data/nutrients.json';
 import * as UKNutrientRequirements from './seed_data/uk_nutrition_req.json';
 
@@ -52,7 +53,7 @@ async function seedUKNutrientRequirements() {
   // Replace string with enum types
   UKNutrientRequirements.map(
     (requirement: any) =>
-      (requirement.biologicalSex = Sex[requirement?.biologicalSex]),
+      (requirement.biologicalSex = BioSex[requirement?.biologicalSex]),
   );
   UKNutrientRequirements.forEach(async (requirement: any) => {
     const { name, ...createRequirement } = requirement;
@@ -79,10 +80,28 @@ async function seedUKNutrientRequirements() {
 /**
  * WARNING: THIS DELETES EVERYTHING FROM THE DATABASE
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function clearDatabase() {
-  console.log('Deleting all records');
-  await prisma.nutrient.deleteMany();
-  await prisma.food.deleteMany();
+  // Only allow this code to run on local env
+  const config = configuration();
+  if (config.node_env === 'local') {
+    console.log('Deleting all records');
+    const tablenames = await prisma.$queryRaw<
+      Array<{ tablename: string }>
+    >`SELECT tablename FROM pg_tables WHERE schemaname='public'`;
+
+    const tables = tablenames
+      .map(({ tablename }) => tablename)
+      .filter((name) => name !== '_prisma_migrations')
+      .map((name) => `"public"."${name}"`)
+      .join(', ');
+
+    try {
+      await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`);
+    } catch (error) {
+      console.log({ error });
+    }
+  }
 }
 // Get all foundation foods
 async function seedUSDAFoods(): Promise<any> {
