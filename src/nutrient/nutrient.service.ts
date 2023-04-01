@@ -3,7 +3,14 @@ import { PrismaService } from 'nestjs-prisma';
 import { CreateNutrientDto } from './dto/create-nutrient.dto';
 import { UpdateNutrientDto } from './dto/update-nutrient.dto';
 import * as nutrients from '../../prisma/seed_data/nutrients.json';
-import { NutrientCategory, VitaminSolubility } from '@prisma/client';
+import {
+  NutrientCategory,
+  VitaminSolubility,
+  BioSex,
+  Nutrient,
+} from '@prisma/client';
+import * as UKNutrientRequirements from '../../prisma/seed_data/uk_nutrition_req.json';
+import { CreateNutrientRequirementDto } from './dto/create-nutrient-requirement.dto';
 
 @Injectable()
 export class NutrientService {
@@ -26,6 +33,10 @@ export class NutrientService {
 
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.prisma.nutrient.findUnique({ where: { id } });
+  }
+
+  findOneByName(name: string) {
+    return this.prisma.nutrient.findUnique({ where: { name } });
   }
 
   update(
@@ -57,6 +68,43 @@ export class NutrientService {
     // Upsert into database
     allNutrients.forEach(async (nutrient: any) => {
       await this.upsert(nutrient);
+    });
+  }
+  async upsertNutrientRequirement(
+    createNutrientRequirementDto: CreateNutrientRequirementDto,
+  ) {
+    const { nutrientName, ...createRequirement } = createNutrientRequirementDto;
+    const nutrient: Nutrient = await this.findOneByName(nutrientName);
+    return await this.prisma.nutrientRequirement.upsert({
+      where: {
+        standardName_yearFrom_nutrientId_biologicalSex: {
+          nutrientId: nutrient.id,
+          standardName: createNutrientRequirementDto.standardName,
+          yearFrom: createNutrientRequirementDto.yearFrom,
+          biologicalSex: createNutrientRequirementDto.biologicalSex,
+        },
+      },
+      update: createRequirement,
+      create: {
+        ...createRequirement,
+        nutrient: { connect: { id: nutrient.id } },
+      },
+    });
+  }
+  /**
+   * Function that adds UK nutrition requirements from the British Nutrition Foundation
+   */
+  async seedUKNutrientRequirements() {
+    // Map the data from the JSON to match the DTO so we can call upsert with it
+    UKNutrientRequirements.map((requirement: any) => {
+      requirement.biologicalSex =
+        BioSex[requirement?.biologicalSex.toUpperCase()];
+      requirement.nutrientName = requirement.name;
+      delete requirement.name;
+    });
+    // For each mapped requirement, call upsert
+    UKNutrientRequirements.forEach(async (requirement: any) => {
+      this.upsertNutrientRequirement(requirement);
     });
   }
 }

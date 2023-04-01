@@ -1,14 +1,8 @@
-import {
-  PrismaClient,
-  BioSex,
-  Nutrient,
-  FoodNutrientSource,
-} from '@prisma/client';
+import { PrismaClient, FoodNutrientSource } from '@prisma/client';
 import axios from 'axios';
 import { PrismaService } from 'nestjs-prisma';
 import configuration from '../config/configuration';
 import { NutrientService } from '../src/nutrient/nutrient.service';
-import * as UKNutrientRequirements from './seed_data/uk_nutrition_req.json';
 
 const prisma = new PrismaClient();
 const prismaService = new PrismaService();
@@ -19,41 +13,13 @@ const API_URL = 'https://api.nal.usda.gov/fdc/v1/';
  * Main Seed entry function
  */
 async function seed() {
+  const nutrientService = new NutrientService(prismaService);
   // Seed Nutrients
-  await new NutrientService(prismaService).seedNutrients();
+  await nutrientService.seedNutrients();
+  // Seed different sets of Nutrient Requirements
+  await nutrientService.seedUKNutrientRequirements();
 }
 
-/**
- * Function that adds UK nutrition requirements from the British Nutrition Foundation
- */
-async function seedUKNutrientRequirements() {
-  // Replace string with enum types
-  UKNutrientRequirements.map(
-    (requirement: any) =>
-      (requirement.biologicalSex = BioSex[requirement?.biologicalSex]),
-  );
-  UKNutrientRequirements.forEach(async (requirement: any) => {
-    const { name, ...createRequirement } = requirement;
-    const nutrient: Nutrient = await prisma.nutrient.findUnique({
-      where: { name },
-    });
-    await prisma.nutrientRequirement.upsert({
-      where: {
-        standardName_yearFrom_nutrientId_biologicalSex: {
-          nutrientId: nutrient.id,
-          standardName: requirement.standardName,
-          yearFrom: requirement.yearFrom,
-          biologicalSex: requirement.biologicalSex,
-        },
-      },
-      update: {},
-      create: {
-        ...createRequirement,
-        nutrient: { connect: { id: nutrient.id } },
-      },
-    });
-  });
-}
 /**
  * WARNING: THIS DELETES EVERYTHING FROM THE DATABASE
  */

@@ -43,23 +43,24 @@ enum DerivationMethodology {
 
 // Models
 model Nutrient {
-  id                   Int                   @id @default(autoincrement())
-  name                 String                @unique
-  commonName           String?               @unique
-  description          String
-  category             NutrientCategory
-  solubility           VitaminSolubility?
-  // Relations
-  FoodNutrient         FoodNutrient[]
-  // To add in future versions
-  // Deficiency disease(s)
-  // Overdose syndrome/symptoms
-  // Functions
+  id          Int                @id @default(autoincrement())
+  name        String             @unique
+  commonName  String?            @unique
+  description String
+  category    NutrientCategory
+  solubility  VitaminSolubility?
+
+  // FK Relations
+  FoodNutrient FoodNutrient[]
+
+  // Prisma Relations
   NutrientRequirements NutrientRequirement[]
+
+  // To add in future versions: Deficiency disease(s), Overdose syndrome/symptoms, Functions
 }
 
 model NutrientRequirement {
-  id            Int      @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   standardName  String
   source        String
   sourceURL     String
@@ -68,19 +69,22 @@ model NutrientRequirement {
   ageGroupEnd   Int?
   biologicalSex BioSex?
   amountMicroMg Float
-  // Relations
-  nutrient      Nutrient @relation(fields: [nutrientId], references: [id])
-  nutrientId    Int
+
+  // FK Relations
+  nutrient   Nutrient @relation(fields: [nutrientId], references: [id])
+  nutrientId Int
 
   @@unique([standardName, yearFrom, nutrientId, biologicalSex])
 }
 
 model Food {
-  id            Int            @id @default(autoincrement())
-  name          String         @unique
+  id            Int    @id @default(autoincrement())
+  name          String @unique
   numberOfGrams Int
-  source        FoodSource
-  nutrients     FoodNutrient[]
+
+  // Prisma Relations
+  source    FoodSource
+  nutrients FoodNutrient[]
 }
 
 model FoodNutrient {
@@ -90,11 +94,12 @@ model FoodNutrient {
   derivationMethodology DerivationMethodology
   source                FoodNutrientSource
   sourceUrl             String
-  // Relation
-  food                  Food                  @relation(fields: [foodId], references: [id])
-  foodId                Int
-  nutrient              Nutrient              @relation(fields: [nutrientId], references: [id])
-  nutrientId            Int
+
+  // FK Relations
+  food       Food     @relation(fields: [foodId], references: [id])
+  foodId     Int
+  nutrient   Nutrient @relation(fields: [nutrientId], references: [id])
+  nutrientId Int
 
   @@unique([foodId, nutrientId, source])
 }
