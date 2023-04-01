@@ -18,6 +18,7 @@ async function seed() {
   await nutrientService.seedNutrients();
   // Seed different sets of Nutrient Requirements
   await nutrientService.seedUKNutrientRequirements();
+  // Seed USDA Foods with their nutrition info
 }
 
 /**
