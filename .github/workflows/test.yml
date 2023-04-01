@@ -26,4 +26,6 @@ jobs:
           yarn test:cov --coverageReporters json-summary
 
       - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
+        uses: MishaKav/jest-coverage-comment@v1.0.23
+        with:
+          githubToken: ${{ secrets.TEST_COVERAGE_FOOD_CALCULATOR_API }}
