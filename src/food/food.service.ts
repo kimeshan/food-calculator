@@ -21,5 +21,7 @@ export class FoodService {
   remove(id: number) {
     return `This action removes a #${id} food`;
   }
-  getUSDAFood() {}
+  getUSDAFood() {
+    return 'will get food from USDA source';
+  }
 }
