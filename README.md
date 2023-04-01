@@ -32,7 +32,7 @@ $ yarn start:prod
 
 ## Husky Pre-commit Hook
 
-This repo uses Husky to ensure code that is not passing our linting requirement is not committed. The pre-commit hook will essentially run `yarn run lint` on your staged files and also `yarn test` to make sure no broken tests are committed. It will not allow you to commit if there are linting errors or tests are not passing.
+This repo uses Husky to ensure code that is not passing our linting requirement is not committed. The pre-commit hook will essentially run `yarn run lint` on your staged files. It will not allow you to commit if there are linting errors.
 
 You can view the pre-commit hook in the file `.husky/pre-commit.`
 
