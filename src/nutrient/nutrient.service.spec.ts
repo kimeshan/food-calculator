@@ -5,6 +5,7 @@ import { createNutrientDto } from '../../prisma/data.factory';
 import { prismaMock } from '../../prisma/testing/singleton';
 import { NutrientController } from './nutrient.controller';
 import { NutrientService } from './nutrient.service';
+import * as seedNutrients from '../../prisma/seed_data/nutrients.json';
 
 describe('NutrientService', () => {
   let service: NutrientService;
@@ -39,7 +40,7 @@ describe('NutrientService', () => {
     expect(prismaMock.nutrient.upsert.mock.calls).toHaveLength(1);
     expect(prismaMock.nutrient.upsert.mock.calls[0][0]).toStrictEqual({
       where: { name: createNutrientDto.name },
-      update: {},
+      update: createNutrientDto,
       create: createNutrientDto,
     });
     expect(result).toEqual(nutrient);
@@ -85,5 +86,13 @@ describe('NutrientService', () => {
       where: { id: 111 },
     });
     expect(result).toEqual(nutrient);
+  });
+  it(`it seeds all nutrients correctly`, async () => {
+    const { vitamins, minerals, macros, other } = seedNutrients;
+    const allSeedNutrients = [...vitamins, ...minerals, ...macros, ...other];
+    const mockUpsert = jest.fn();
+    const mockClassInstance = { upsert: mockUpsert };
+    await service.seedNutrients.call(mockClassInstance);
+    expect(mockUpsert).toHaveBeenCalledTimes(allSeedNutrients.length);
   });
 });

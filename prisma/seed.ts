@@ -1,17 +1,17 @@
 import {
   PrismaClient,
   BioSex,
-  NutrientCategory,
-  VitaminSolubility,
   Nutrient,
   FoodNutrientSource,
 } from '@prisma/client';
 import axios from 'axios';
+import { PrismaService } from 'nestjs-prisma';
 import configuration from '../config/configuration';
-import * as nutrients from './seed_data/nutrients.json';
+import { NutrientService } from '../src/nutrient/nutrient.service';
 import * as UKNutrientRequirements from './seed_data/uk_nutrition_req.json';
 
 const prisma = new PrismaClient();
+const prismaService = new PrismaService();
 const API_KEY = process.env.USDA_API_KEY;
 const API_URL = 'https://api.nal.usda.gov/fdc/v1/';
 
@@ -19,31 +19,8 @@ const API_URL = 'https://api.nal.usda.gov/fdc/v1/';
  * Main Seed entry function
  */
 async function seed() {
-  seedNutrients();
-  seedUKNutrientRequirements();
-  seedUSDAFoods();
-}
-
-/**
- * Function that adds macro and micro nutrients to the Nutrients table
- */
-async function seedNutrients() {
-  const { vitamins, minerals, macros, other } = nutrients;
-  const allNutrients = [...vitamins, ...minerals, ...macros, ...other];
-  // Replace eNum types
-  allNutrients.map((nutrient: any) => {
-    nutrient.category = NutrientCategory[nutrient.category];
-    if (nutrient.solubility)
-      nutrient.solubility = VitaminSolubility[nutrient?.solubility];
-  });
-  // Upsert into database
-  allNutrients.forEach(async (nutrient: any) => {
-    await prisma.nutrient.upsert({
-      where: { name: nutrient?.name },
-      update: {},
-      create: nutrient,
-    });
-  });
+  // Seed Nutrients
+  await new NutrientService(prismaService).seedNutrients();
 }
 
 /**
