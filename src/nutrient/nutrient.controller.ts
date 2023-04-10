@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { NutrientService } from './nutrient.service';
 import { CreateNutrientDto } from './dto/create-nutrient.dto';
@@ -26,20 +27,20 @@ export class NutrientController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nutrientService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.nutrientService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateNutrientDto: UpdateNutrientDto,
   ) {
-    return this.nutrientService.update(+id, updateNutrientDto);
+    return this.nutrientService.update(id, updateNutrientDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.nutrientService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.nutrientService.remove(id);
   }
 }

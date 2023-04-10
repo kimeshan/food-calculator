@@ -85,7 +85,7 @@ describe('NutrientController', () => {
 
       service.findOne = jest.fn().mockResolvedValue(nutrient);
 
-      const result = await controller.findOne('1');
+      const result = await controller.findOne(1);
 
       expect(service.findOne).toHaveBeenCalledTimes(1);
       expect(service.findOne).toHaveBeenCalledWith(1);
@@ -110,7 +110,7 @@ describe('NutrientController', () => {
 
       service.update = jest.fn().mockResolvedValue(updatedNutrient);
 
-      const result = await controller.update('1', updateNutrientDto);
+      const result = await controller.update(1, updateNutrientDto);
 
       expect(service.update).toHaveBeenCalledTimes(1);
       expect(service.update).toHaveBeenCalledWith(1, updateNutrientDto);
@@ -124,7 +124,7 @@ describe('NutrientController', () => {
 
       service.remove = jest.fn().mockResolvedValue({});
 
-      await controller.remove('1');
+      await controller.remove(1);
 
       expect(service.remove).toHaveBeenCalledTimes(1);
       expect(service.remove).toHaveBeenCalledWith(nutrientId);

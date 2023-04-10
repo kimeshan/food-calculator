@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -27,13 +28,15 @@ export class FoodController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
-    return this.foodService.update(+id, updateFoodDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateFoodDto: UpdateFoodDto,
+  ) {
+    return this.foodService.update(id, updateFoodDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    console.log('id', id);
-    return this.foodService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.foodService.remove(id);
   }
 }

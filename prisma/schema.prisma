@@ -39,6 +39,7 @@ enum FoodNutrientSource {
 enum DerivationMethodology {
   ANALYTICAL
   CALCULATED
+  UNKNOWN
 }
 
 // Models
@@ -78,13 +79,22 @@ model NutrientRequirement {
 }
 
 model Food {
-  id            Int    @id @default(autoincrement())
-  name          String @unique
-  numberOfGrams Int
+  id              Int        @id @default(autoincrement())
+  name            String     @unique
+  description     String?
+  numberOfGrams   Int
+  source          FoodSource
+  sourceRefId     String?
+  category        String?
+  publicationDate DateTime?
+  createdAt       DateTime   @default(now())
+  kcal            Float?
 
   // Prisma Relations
-  source    FoodSource
   nutrients FoodNutrient[]
+
+  @@unique([source, sourceRefId])
+  @@unique([name, source])
 }
 
 model FoodNutrient {
@@ -94,6 +104,7 @@ model FoodNutrient {
   derivationMethodology DerivationMethodology
   source                FoodNutrientSource
   sourceUrl             String
+  publicationDate       DateTime?
 
   // FK Relations
   food       Food     @relation(fields: [foodId], references: [id])
