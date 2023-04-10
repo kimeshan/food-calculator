@@ -39,6 +39,7 @@ enum FoodNutrientSource {
 enum DerivationMethodology {
   ANALYTICAL
   CALCULATED
+  UNKNOWN
 }
 
 // Models

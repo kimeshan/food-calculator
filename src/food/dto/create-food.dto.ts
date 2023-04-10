@@ -32,15 +32,15 @@ export class CreateFoodDto {
 
   @IsOptional()
   @IsString()
-  sourceRefId: string;
+  sourceRefId?: string;
 
   @IsOptional()
   @IsString()
-  category: string;
+  category?: string;
 
   @IsOptional()
   @IsDate()
-  publicationDate: Date;
+  publicationDate?: Date;
 
   @IsOptional()
   @IsNumber()

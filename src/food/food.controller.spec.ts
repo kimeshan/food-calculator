@@ -40,6 +40,8 @@ describe('FoodController', () => {
         numberOfGrams: 100,
         description: 'A red fruit',
         source: FoodSource.USDA,
+        sourceRefId: '1234',
+        category: 'Fruit',
       };
       (service.create as jest.Mock).mockResolvedValue({
         id: 1,

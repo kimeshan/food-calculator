@@ -129,7 +129,7 @@ export class NutrientService {
     });
     // For each mapped requirement, call upsert
     UKNutrientRequirements.forEach(async (requirement: any) => {
-      this.upsertNutrientRequirement(requirement);
+      await this.upsertNutrientRequirement(requirement);
     });
   }
 }

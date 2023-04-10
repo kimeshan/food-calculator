@@ -13,12 +13,15 @@ const prismaService = new PrismaService();
 async function seed() {
   const nutrientService = new NutrientService(prismaService);
   const foodService = new FoodService(prismaService, nutrientService);
-
   // Seed Nutrients
+  console.log('Seeding Nutrients...');
   await nutrientService.seedNutrients();
   // Seed different sets of Nutrient Requirements
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  console.log('Seeding UK nutrient requirements...');
   await nutrientService.seedUKNutrientRequirements();
   // Seed USDA foundation foods
+  await new Promise((resolve) => setTimeout(resolve, 500));
   await foodService.seedUSDAFoods('Foundation');
 }
 

@@ -49,23 +49,29 @@ export class FoodService {
     return response?.data;
   }
 
-  async getUSDANutritionInfo(foodId: string) {
+  async getUSDANutritionInfo(foodId: string, format = 'full') {
     // Get the USDA nutritional info for a foodId
     const endpoint = 'https://api.nal.usda.gov/fdc/v1/food/';
     const apiKey = process.env.USDA_API_KEY;
-    const response = await axios.get(`${endpoint}${foodId}?api_key=${apiKey}`);
+    const response = await axios.get(
+      `${endpoint}${foodId}?api_key=${apiKey}&format=${format}`,
+    );
 
     // const { description, foodNutrients } = nutritionInfo?.data;
     return response?.data;
   }
 
-  mapUSDAFoodNutrientToFoodNutrient(food, usdaFoodInfo: any) {
+  async mapUSDAFoodNutrientToFoodNutrient(food, usdaFoodInfo: any) {
     // Nutrient Mapping
     const nutrientMapping = {
       'Calcium, Ca': 'Calcium',
-      'Chromium, Cr': 'Chromium',
+      'Carbohydrate, by difference': 'Carbohydrates',
       'Chloride, Cl': 'Chloride',
+      'Choline, total': 'Choline',
+      'Chromium, Cr': 'Chromium',
       'Copper, Cu': 'Copper',
+      'Fiber, total dietary': 'Dietary Fiber',
+      'Lipids (fat)': 'Fats',
       'Iodine, I': 'Iodine',
       'Iron, Fe': 'Iron',
       'Magnesium, Mg': 'Magnesium',
@@ -73,51 +79,43 @@ export class FoodService {
       'Molybdenum, Mo': 'Molybdenum',
       'Phosphorus, P': 'Phosphorus',
       'Potassium, K': 'Potassium',
+      Protein: 'Protein',
       'Selenium, Se': 'Selenium',
       'Sodium, Na': 'Sodium',
-      'Zinc, Zn': 'Zinc',
-      'Vitamin A, RAE': 'Vitamin A',
-      'Vitamin B-6': 'Vitamin B6',
-      'Vitamin B-12': 'Vitamin B12',
-      'Vitamin C, total ascorbic acid': 'Vitamin C',
-      'Vitamin D (D2 + D3)': 'Vitamin D',
-      'Vitamin D3 (cholecalciferol)': 'Vitamin D3',
-      'Vitamin E (alpha-tocopherol)': 'Vitamin E',
-      'Vitamin K (phylloquinone)': 'Vitamin K',
+      Retinol: 'Vitamin A',
       Thiamin: 'Vitamin B1',
       Riboflavin: 'Vitamin B2',
       Niacin: 'Vitamin B3',
       'Pantothenic acid': 'Vitamin B5',
+      'Vitamin B-6': 'Vitamin B6',
       Biotin: 'Vitamin B7',
       'Folate, total': 'Vitamin B9',
-      'Folic acid': 'Vitamin B9',
-      'Folate, DFE': 'Vitamin B9',
-      Retinol: 'Vitamin A',
+      'Vitamin B-12': 'Vitamin B12',
+      'Vitamin C, total ascorbic acid': 'Vitamin C',
+      'Vitamin D (D2 + D3)': 'Vitamin D',
       'Vitamin D2 (ergocalciferol)': 'Vitamin D2',
-      'Beta-sitosterol': 'Beta-sitosterol',
-      Caffeine: 'Caffeine',
-      'Choline, total': 'Choline',
-      'Carbohydrate, by difference': 'Carbohydrates',
-      Energy: 'Calories',
-      'Fiber, total dietary': 'Dietary Fiber',
-      'Lipids (fat)': 'Fats',
-      Protein: 'Protein',
-      'Sugars, total including NLEA': 'Sugars',
+      'Vitamin D3 (cholecalciferol)': 'Vitamin D3',
+      'Vitamin E (alpha-tocopherol)': 'Vitamin E',
+      'Vitamin K (phylloquinone)': 'Vitamin K',
+      'Zinc, Zn': 'Zinc',
     };
+
     const unitNameToMigroMgMapping = {
       g: 1000000,
       mg: 1000,
       µg: 1,
+      ug: 1,
     };
     const derivationMethodologyMapping = {
-      Analytical: DerivationMethodology.ANALYTICAL,
-      Calculated: DerivationMethodology.CALCULATED,
+      analytical: DerivationMethodology.ANALYTICAL,
+      calculated: DerivationMethodology.CALCULATED,
     };
     const foodNutrients = usdaFoodInfo.foodNutrients;
-    foodNutrients.forEach(async (foodNutrient: any) => {
-      const nutrientName: string = nutrientMapping[foodNutrient.nutrient.name];
+    console.log('Mapping all food nutrients for: ', food.name, '');
+    await foodNutrients.forEach(async (foodNutrient: any) => {
+      const nutrientName: string = nutrientMapping[foodNutrient.name];
       // If we have a mapping for this nutrient, let's add it to the foodNutrient database
-      if (nutrientName) {
+      if (nutrientName !== undefined) {
         // Find the nutrient in our database
         const nutrientRecord = await this.nutrientService.findOneByName(
           nutrientName,
@@ -125,12 +123,15 @@ export class FoodService {
         // Concert the amount to micrograms
         const amountMicroMg =
           foodNutrient.amount *
-          unitNameToMigroMgMapping[foodNutrient.nutrient.unitName];
+          unitNameToMigroMgMapping[foodNutrient?.unitName?.toLowerCase()];
         // Map the derivation methodology
         const derivationMethodology =
           derivationMethodologyMapping[
-            foodNutrient.foodNutrientDerivation.description
-          ];
+            foodNutrient?.derivationDescription?.toLowerCase()
+          ] || DerivationMethodology.UNKNOWN;
+        console.log(
+          `Create food nutrient record for ${nutrientRecord.name} with amount ${amountMicroMg} and derivation methodology ${derivationMethodology}`,
+        );
         // Call the nutrient service to create the foodNutrient
         await this.nutrientService.upsertFoodNutrient(
           nutrientRecord.id,
@@ -139,12 +140,9 @@ export class FoodService {
           derivationMethodology,
           FoodNutrientSource.USDA,
           'https://fdc.nal.usda.gov/',
-          foodNutrient.minYearAcquired,
         );
       }
     });
-
-    // Convert all amounts into micrograms and derivationMethods to enums
   }
 
   async seedUSDAFoods(foodType = 'Foundation') {
@@ -152,28 +150,36 @@ export class FoodService {
     let foodsFetched = [];
     let allFoods = [];
     let pageNumber = 1;
+    console.log('Fetching all foundation foods...');
     do {
       foodsFetched = await this.getUSDAFoods(pageNumber, foodType);
-      allFoods = [...allFoods, ...foodsFetched];
+      if (foodsFetched && foodsFetched.length > 0)
+        allFoods = [...allFoods, ...foodsFetched];
       pageNumber += 1;
     } while (foodsFetched && foodsFetched.length > 0);
+    console.log(
+      `Successfully fetched ${allFoods.length} foundation foods. Proceeding to get nutrition info for each one..`,
+    );
     // Now for each food, le'ts get the nutrition info
     allFoods.forEach(async (food: any) => {
-      const foodInfo = await this.getUSDANutritionInfo(food.fdcId);
+      console.log('Fetching nutrition info for food: ' + food.description);
+      const foodInfo = await this.getUSDANutritionInfo(food.fdcId, 'abridged');
       // Get kcal if available
-      const kcalObject = foodInfo.foodNutrients.find(
-        (foodNutrient: any) => foodNutrient.unitName.toUpperCase() === 'KCAL',
+      const kcalObject = food.foodNutrients.find(
+        (foodNutrient: any) => foodNutrient?.unitName?.toUpperCase() === 'KCAL',
       );
+      const kcal = kcalObject ? kcalObject.amount : null;
       const createdFood = await this.upsert({
         name: food.description,
         description: food.description,
         numberOfGrams: 100,
         source: FoodNutrientSource.USDA,
-        sourceRefId: food.fdcId,
-        category: food.foodCategory.description,
+        sourceRefId: food.fdcId + '',
+        category: food?.foodCategory?.description,
         publicationDate: new Date(food.publicationDate),
-        kcal: kcalObject ? kcalObject.amount : null,
+        kcal,
       });
+      console.log('Successfully created food: ' + createdFood.name);
       // Now let's create the food nutrients:
       await this.mapUSDAFoodNutrientToFoodNutrient(createdFood, foodInfo);
     });
