@@ -1,4 +1,4 @@
-import { PrismaClient, FoodNutrientSource } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 import { PrismaService } from 'nestjs-prisma';
 import configuration from '../config/configuration';
