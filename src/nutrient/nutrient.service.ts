@@ -8,6 +8,8 @@ import {
   VitaminSolubility,
   BioSex,
   Nutrient,
+  FoodNutrientSource,
+  DerivationMethodology,
 } from '@prisma/client';
 import * as UKNutrientRequirements from '../../prisma/seed_data/uk_nutrition_req.json';
 import { CreateNutrientRequirementDto } from './dto/create-nutrient-requirement.dto';
@@ -24,6 +26,29 @@ export class NutrientService {
       where: { name: createNutrientDto?.name },
       update: createNutrientDto,
       create: createNutrientDto,
+    });
+  }
+  upsertFoodNutrient(
+    nutrientId: number,
+    foodId: number,
+    amountMicroMg: number,
+    derivationMethodology: DerivationMethodology,
+    source: FoodNutrientSource,
+    sourceUrl: string,
+    publicationDate: Date = null,
+  ) {
+    return this.prisma.foodNutrient.upsert({
+      where: { foodId_nutrientId_source: { nutrientId, foodId, source } },
+      update: {},
+      create: {
+        foodId,
+        nutrientId,
+        amountMicroMg,
+        derivationMethodology,
+        source,
+        sourceUrl,
+        publicationDate,
+      },
     });
   }
 

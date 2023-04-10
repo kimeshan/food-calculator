@@ -2,6 +2,7 @@
 
 import { FoodSource } from '@prisma/client';
 import {
+  IsDate,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -28,4 +29,20 @@ export class CreateFoodDto {
   @IsNotEmpty()
   @IsEnum(FoodSource)
   source: FoodSource;
+
+  @IsOptional()
+  @IsString()
+  sourceRefId: string;
+
+  @IsOptional()
+  @IsString()
+  category: string;
+
+  @IsOptional()
+  @IsDate()
+  publicationDate: Date;
+
+  @IsOptional()
+  @IsNumber()
+  kcal?: number;
 }

@@ -78,14 +78,22 @@ model NutrientRequirement {
 }
 
 model Food {
-  id            Int        @id @default(autoincrement())
-  name          String     @unique
-  description   String?
-  numberOfGrams Int
-  source        FoodSource
+  id              Int        @id @default(autoincrement())
+  name            String     @unique
+  description     String?
+  numberOfGrams   Int
+  source          FoodSource
+  sourceRefId     String?
+  category        String?
+  publicationDate DateTime?
+  createdAt       DateTime   @default(now())
+  kcal            Float?
 
   // Prisma Relations
   nutrients FoodNutrient[]
+
+  @@unique([source, sourceRefId])
+  @@unique([name, source])
 }
 
 model FoodNutrient {
@@ -95,6 +103,7 @@ model FoodNutrient {
   derivationMethodology DerivationMethodology
   source                FoodNutrientSource
   sourceUrl             String
+  publicationDate       DateTime?
 
   // FK Relations
   food       Food     @relation(fields: [foodId], references: [id])

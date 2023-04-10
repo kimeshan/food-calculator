@@ -12,7 +12,8 @@ describe('FoodService', () => {
     service = module.get<FoodService>(FoodService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should get USDA foods', async () => {
+    // TO ADD WHEN API WORKING
+    await service.getUSDAFoods();
   });
 });
