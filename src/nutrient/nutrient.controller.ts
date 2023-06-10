@@ -11,14 +11,21 @@ import {
 import { NutrientService } from './nutrient.service';
 import { CreateNutrientDto } from './dto/create-nutrient.dto';
 import { UpdateNutrientDto } from './dto/update-nutrient.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('nutrient')
+@ApiTags('nutrient')
 export class NutrientController {
   constructor(private readonly nutrientService: NutrientService) {}
 
   @Post()
   create(@Body() createNutrientDto: CreateNutrientDto) {
     return this.nutrientService.create(createNutrientDto);
+  }
+
+  @Get('requirement/:sex')
+  findRequirements(@Param('sex') bioSex: string) {
+    return this.nutrientService.findRequirements(bioSex);
   }
 
   @Get()

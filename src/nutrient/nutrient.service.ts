@@ -132,4 +132,26 @@ export class NutrientService {
       await this.upsertNutrientRequirement(requirement);
     });
   }
+
+  /**
+   * Find the requirements for each nutrient in our database given a biological sex
+   * @param bioSex
+   */
+  async findRequirements(bioSex: string) {
+    let bioSexEnum = BioSex.FEMALE as BioSex;
+    if (bioSex.toUpperCase() === 'MALE') bioSexEnum = BioSex.MALE;
+    return await this.prisma.nutrient.findMany({
+      include: {
+        NutrientRequirements: {
+          include: { nutrient: true },
+          where: { biologicalSex: bioSexEnum },
+        },
+      },
+      where: {
+        NutrientRequirements: {
+          some: {},
+        },
+      },
+    });
+  }
 }

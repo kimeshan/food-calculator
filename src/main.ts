@@ -9,6 +9,12 @@ async function bootstrap() {
   const config = configuration();
   const app = await NestFactory.create(AppModule);
 
+  // Add CORS Policy
+  app.enableCors({
+    origin: [/http:\/\/localhost:+/],
+    credentials: true,
+  });
+
   // Add Swagger for API Documentation
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Food Calc API')

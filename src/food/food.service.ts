@@ -28,7 +28,9 @@ export class FoodService {
   }
 
   findAll() {
-    return this.prisma.food.findMany();
+    return this.prisma.food.findMany({
+      include: { nutrients: { include: { nutrient: true } } },
+    });
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
