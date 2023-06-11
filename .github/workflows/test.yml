@@ -18,17 +18,13 @@ jobs:
         run: yarn install --frozen-lockfile --immutable
 
       - name: Run linter
-        run: |
-          yarn lint
+        run: yarn lint
 
       - name: Run tests
-        run: |
-          yarn test
+        run: yarn test
 
-           - name: Test and Generate Coverage
-
-      - name: Run test coverage
-        run: yarn run test:cov
+      - name: Test and Generate Coverage
+        run: yarn test:cov
 
       - name: Print the Total Coverage
         id: coverage-percent
@@ -38,7 +34,6 @@ jobs:
           echo "::set-output name=coverage::$value"
           echo $value
 
-      # https://github.com/actions/github-script#apply-a-label-to-an-issue
       - name: Add Coverage Label
         uses: actions/github-script@v2
         with:
