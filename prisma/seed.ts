@@ -10,7 +10,7 @@ const prismaService = new PrismaService();
 /**
  * Main Seed entry function
  */
-async function seed() {
+export default async function seed() {
   const nutrientService = new NutrientService(prismaService);
   const foodService = new FoodService(prismaService, nutrientService);
   // Seed Nutrients
@@ -23,6 +23,7 @@ async function seed() {
   // Seed USDA foundation foods
   await new Promise((resolve) => setTimeout(resolve, 500));
   await foodService.seedUSDAFoods('Foundation');
+  await new Promise((resolve) => setTimeout(resolve, 500));
 }
 
 /**
@@ -51,13 +52,13 @@ async function clearDatabase() {
     }
   }
 }
-// Start database seeding
-seed()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+// // Start database seeding
+// seed()
+//   .then(async () => {
+//     await prisma.$disconnect();
+//   })
+//   .catch(async (e) => {
+//     console.error(e);
+//     await prisma.$disconnect();
+//     process.exit(1);
+//   });
