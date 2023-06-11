@@ -16,7 +16,9 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+      expect(appController.getHello()).toBe(
+        'Welcome to Food Calculator API! To contribute, visit: https://github.com/kimeshan/food-calculator',
+      );
     });
   });
 });
