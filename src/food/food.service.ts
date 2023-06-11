@@ -74,6 +74,7 @@ export class FoodService {
       'Copper, Cu': 'Copper',
       'Fiber, total dietary': 'Dietary Fiber',
       'Lipids (fat)': 'Fats',
+      'Total lipid (fat)': 'Fats',
       'Iodine, I': 'Iodine',
       'Iron, Fe': 'Iron',
       'Magnesium, Mg': 'Magnesium',
