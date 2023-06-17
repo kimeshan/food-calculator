@@ -13,9 +13,9 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       /http:\/\/localhost:+/,
-      /https:\/\/foodblocks.co+/,
-      /https:\/\/foodblocks.app+/,
-      /https:\/\/food-blocks(-[a-zA-Z0-9-]+)?\.vercel.app/,
+      /https?:\/\/(www\.)?foodblocks.co+/,
+      /https?:\/\/(www\.)?foodblocks.app+/,
+      /https?:\/\/(www\.)?food-blocks(-[a-zA-Z0-9-]+)?\.vercel.app/,
     ],
     credentials: true,
   });
