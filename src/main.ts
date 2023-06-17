@@ -11,7 +11,12 @@ async function bootstrap() {
 
   // Add CORS Policy
   app.enableCors({
-    origin: [/http:\/\/localhost:+/],
+    origin: [
+      /http:\/\/localhost:+/,
+      /https:\/\/foodblocks.co+/,
+      /https:\/\/foodblocks.app+/,
+      /https:\/\/food-blocks(-[a-zA-Z0-9-]+)?\.vercel.app/,
+    ],
     credentials: true,
   });
 
