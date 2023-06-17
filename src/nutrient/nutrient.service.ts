@@ -146,11 +146,26 @@ export class NutrientService {
           include: { nutrient: true },
           where: { biologicalSex: bioSexEnum },
         },
+        FoodNutrient: {
+          orderBy: {
+            amountMicroMg: 'desc',
+          },
+          include: { food: true },
+        },
       },
       where: {
-        NutrientRequirements: {
-          some: {},
-        },
+        AND: [
+          {
+            NutrientRequirements: {
+              some: {},
+            },
+          },
+          {
+            FoodNutrient: {
+              some: {},
+            },
+          },
+        ],
       },
     });
   }
